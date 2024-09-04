@@ -2,22 +2,22 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Facility;
+use App\Models\UserLog;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    public function run()
     {
-        // User::factory(10)->create();
+        // Generate 10 random facilities
+        $facilities = Facility::factory()->count(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Generate 20 random user logs, each associated with one of the generated facilities
+        $facilities->each(function ($facility) {
+            UserLog::factory()->count(3) // Number of UserLogs per Facility
+                ->create(['facility_id' => $facility->id]);
+        });
     }
 }
+
