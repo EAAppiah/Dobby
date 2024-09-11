@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Facility;
+
 
 return new class extends Migration {
     /**
@@ -12,13 +14,14 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('phone', 10)->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('user_type')->default('user');
-            $table->string('phone')->unique();
-            $table->string('plain_password')->nullable();
             $table->string('password');
+            $table->string('plain_password')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->foreignIdFor(Facility::class)->constrained()->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

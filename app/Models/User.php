@@ -11,18 +11,15 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'phone',
         'password',
         'plain_password',
-        'user_type' => 'user',
+        'first_name',
+        'last_name',
+        'company',
+        'facility_id',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -44,5 +41,10 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+    public function facility()
+    {
+        return $this->belongsTo(Facility::class);
     }
 }

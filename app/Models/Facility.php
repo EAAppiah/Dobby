@@ -24,6 +24,6 @@ class Facility extends Model
 
     public function userLogs()
     {
-        return $this->hasMany(UserLog::class);
+        return $this->hasMany(User::class);
     }
 }

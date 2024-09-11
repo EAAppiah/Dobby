@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Facility;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,15 +15,18 @@ class UserFactory extends Factory
     {
         $password = $this->generateReadablePassword();
 
-        return [
-            'name' => $this->faker->name,
+        $data = [
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
             'email' => $this->faker->safeEmail,
             'email_verified_at' => now(),
             'phone' => $this->faker->unique()->numerify('##########'),
             'password' => Hash::make($password),
             'plain_password' => $password,
-            'user_type' => $this->faker->randomElement(['user', 'facility']),
+            'facility_id' => Facility::factory()
         ];
+
+        return $data;
     }
 
     /**
@@ -39,27 +43,6 @@ class UserFactory extends Factory
         $words = array_map('ucfirst', $words);
 
         return implode('', $words) . $number . $special;
-    }
-
-    /**
-     * Indicate that the user has changed their password.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-
-
-    /**
-     * Indicate that the user is a facility user.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function facility()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'user_type' => 'facility',
-            ];
-        });
     }
 
     public function unverified(): static
